@@ -1,4 +1,4 @@
-package com.exemple;
+package com.exemple.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,8 +12,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    
     private String nom;
+
+    private String email;
 
     public User() {
     }
@@ -21,6 +22,7 @@ public class User {
     public User( String nom) {
         this.nom = nom;
     }
+
 
     public void setId(Long id) {
         this.id = id;
@@ -30,11 +32,20 @@ public class User {
         this.nom = nom;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
     public Long getId() {
         return id;
     }
 
     public String getNom() {
         return nom;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }
