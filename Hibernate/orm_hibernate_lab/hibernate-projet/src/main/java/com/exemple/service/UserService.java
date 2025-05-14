@@ -4,7 +4,9 @@ import com.exemple.model.Article;
 import com.exemple.model.User;
 import org.hibernate.Session;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserService extends Service<User> {
 
@@ -13,11 +15,13 @@ public class UserService extends Service<User> {
     }
 
     public void print(User entity) {
-        String msg = "";
+        Map<String,String> attributes = new HashMap<String,String>();
         if (entity != null) {
-            msg = entity.getId() + " " + entity.getNom() + " " + entity.getEmail();
+            attributes.put("ID", entity.getId().toString());
+            attributes.put("nom", entity.getNom());
+            attributes.put("email", entity.getEmail());
         }
-        print(msg);
+        print(attributes);
     }
 
     public List<Article> readArticles(Long userId) {

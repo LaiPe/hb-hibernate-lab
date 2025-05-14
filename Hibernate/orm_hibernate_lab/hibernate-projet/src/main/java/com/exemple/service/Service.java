@@ -4,7 +4,7 @@ import com.exemple.DBAccess;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import java.util.Objects;
+import java.util.Map;
 
 public abstract class Service<A> {
     private final Class<A> modelType;
@@ -80,13 +80,17 @@ public abstract class Service<A> {
         System.out.println("\n");
     }
 
-    protected void print(String msg){
+    protected void print(Map<String,String> attributes){
         System.out.println("==========================================");
         System.out.println("              PRINT operation");
         System.out.println("==========================================");
 
-        if (!msg.isEmpty()) {
-            System.out.println(modelTypeName.toUpperCase() + " : " + msg);
+        if (!attributes.isEmpty()) {
+            System.out.println(modelTypeName.toUpperCase() + " entity");
+            System.out.println("------------------------------------------");
+            for (Map.Entry<String,String> attr : attributes.entrySet()) {
+                System.out.println(attr.getKey() + " : " + attr.getValue());
+            }
         } else {
             System.err.println("ERROR : Impossible to PRINT null entity " + modelTypeName);
         }
