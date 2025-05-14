@@ -18,7 +18,12 @@ public class DBAccess {
 
         Metadata metadata = new MetadataSources(registry).buildMetadata();
         sessionFactory = metadata.buildSessionFactory();
-        System.out.println("Connexion réussie !");
+
+        System.out.println("==========================================");
+        System.out.println("            Connexion réussie !");
+        System.out.println("==========================================");
+        System.out.println("\n");
+
     }
 
     public static DBAccess getInstance() {

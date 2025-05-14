@@ -2,6 +2,9 @@ package com.exemple.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "user")
 public class User {
@@ -14,10 +17,16 @@ public class User {
 
     private String email;
 
+    @OneToMany(targetEntity = Article.class, mappedBy = "author")
+    private List<Article> articles;
+    // 1 utilisateur possède plusieurs articles
+
     public User() {
+        articles = new ArrayList<>();
     }
 
-    public User( String nom) {
+    public User(String nom) {
+        this();
         this.nom = nom;
     }
 
@@ -34,6 +43,9 @@ public class User {
         this.email = email;
     }
 
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
+    }
 
     public Long getId() {
         return id;
@@ -45,5 +57,9 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public List<Article> getArticles() {
+        return articles;
     }
 }

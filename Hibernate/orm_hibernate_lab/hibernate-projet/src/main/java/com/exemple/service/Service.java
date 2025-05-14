@@ -4,26 +4,39 @@ import com.exemple.DBAccess;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-public class Service<A> {
+import java.util.Objects;
+
+public abstract class Service<A> {
     private final Class<A> modelType;
-    private final SessionFactory sessionFactory;
+    private final String modelTypeName;
+    protected final SessionFactory sessionFactory;
 
     public Service(Class<A> modelType) {
         this.modelType = modelType;
+        this.modelTypeName = modelType.getName().substring(modelType.getName().lastIndexOf('.') + 1);;
         this.sessionFactory = DBAccess.getInstance().getSessionFactory();
     }
 
     public void create(A entity){
+        System.out.println("==========================================");
+        System.out.println("          CRUD operation CREATE");
+        System.out.println("==========================================");
+
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.persist(entity);
             session.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace(System.err);
+            System.err.println("CRUD ERROR : Impossible to CREATE entity " + modelTypeName);
         }
+        System.out.println("\n");
     }
 
     public A read(Long id){
+        System.out.println("==========================================");
+        System.out.println("           CRUD operation READ");
+        System.out.println("==========================================");
+
         A entity = null;
 
         try (Session session = sessionFactory.openSession()) {
@@ -31,28 +44,52 @@ public class Service<A> {
             entity = session.get(modelType, id);
             session.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace(System.err);
+            System.err.println("CRUD ERROR : Impossible to READ entity " + modelTypeName + " of id " + id);
         }
+        System.out.println("\n");
         return entity;
     }
 
     public void update(A entity){
+        System.out.println("==========================================");
+        System.out.println("          CRUD operation UPDATE");
+        System.out.println("==========================================");
+
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.merge(entity);
             session.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace(System.err);
+            System.err.println("CRUD ERROR : Impossible to UPDATE entity " + modelTypeName);
         }
+        System.out.println("\n");
     }
 
     public void delete(Long id){
+        System.out.println("==========================================");
+        System.out.println("          CRUD operation DELETE");
+        System.out.println("==========================================");
+
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.remove(id);
             session.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace(System.err);
+            System.err.println("CRUD ERROR : Impossible to DELETE entity " + modelTypeName + " of id " + id);
         }
+        System.out.println("\n");
     }
+
+    protected void print(String msg){
+        System.out.println("==========================================");
+        System.out.println("              PRINT operation");
+        System.out.println("==========================================");
+
+        if (!msg.isEmpty()) {
+            System.out.println(modelTypeName.toUpperCase() + " : " + msg);
+        } else {
+            System.err.println("ERROR : Impossible to PRINT null entity " + modelTypeName);
+        }
+        System.out.println("\n");
+    };
 }
