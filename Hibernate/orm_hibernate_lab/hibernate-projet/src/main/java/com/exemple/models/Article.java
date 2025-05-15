@@ -1,12 +1,15 @@
-package com.exemple.model;
+package com.exemple.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Entity
 @Table(name = "article")
-public class Article {
+public class Article extends GenericEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +68,15 @@ public class Article {
 
     public User getAuthor() {
         return author;
+    }
+
+
+    public void print() {
+        Map<String,String> attributes = new HashMap<>();
+        attributes.put("ID", getId().toString());
+        attributes.put("title",getTitle());
+        attributes.put("content", getContent());
+        print(attributes);
     }
 
 }

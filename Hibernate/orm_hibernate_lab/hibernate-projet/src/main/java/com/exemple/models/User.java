@@ -1,13 +1,15 @@
-package com.exemple.model;
+package com.exemple.models;
 
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User extends GenericEntity{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +49,7 @@ public class User {
         this.articles = articles;
     }
 
+
     public Long getId() {
         return id;
     }
@@ -61,5 +64,14 @@ public class User {
 
     public List<Article> getArticles() {
         return articles;
+    }
+
+
+    public void print() {
+        Map<String,String> attributes = new HashMap<>();
+        attributes.put("ID", getId().toString());
+        attributes.put("nom", getNom());
+        attributes.put("email", getEmail());
+        print(attributes);
     }
 }

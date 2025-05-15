@@ -1,17 +1,13 @@
 package com.exemple;
 
-import com.exemple.model.Article;
-import com.exemple.model.User;
-import com.exemple.service.ArticleService;
-import com.exemple.service.Service;
-import com.exemple.service.UserService;
+import com.exemple.models.Article;
+import com.exemple.models.User;
+import com.exemple.dao.ArticleDAO;
+import com.exemple.dao.UserDAO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Hello world!
- */
 public class App {
     public static void main(String[] args) {
         System.out.println("==========================================");
@@ -40,41 +36,65 @@ public class App {
 
 
         // ======= Insertion des tuples en BDD ======= //
-        UserService monServiceUser = new UserService();
-        monServiceUser.create(monUser);
+        UserDAO userDAO = new UserDAO(true);
+        userDAO.create(monUser);
 
-        ArticleService monServiceArticle = new ArticleService();
-        monServiceArticle.create(a1);
-        monServiceArticle.create(a2);
+        ArticleDAO articleDAO = new ArticleDAO(true);
+        articleDAO.create(a1);
+        articleDAO.create(a2);
 
 
 
         // ======= Lecture du tuple ======= //
-        User monUserLu = monServiceUser.read(1L); // lecture de l'id 1 de la table user
-        monUserLu.setArticles(monServiceUser.readArticles(1L));
+        User monUserLu = userDAO.read(1L); // lecture de l'id 1 de la table user
+        monUserLu.setArticles(articleDAO.readAllByAuthor(1L));
 
-        monServiceUser.print(monUserLu);
+        monUserLu.print();
         for (Article a : monUserLu.getArticles()) {
-            monServiceArticle.print(a);
+            a.print();
         }
 
 
         // ======= Modification du tuple ======= //
         monUser.setEmail("nouvelemail@email.com");
         monUser.setId(1L);
-        monServiceUser.update(monUser);
+        userDAO.update(monUser);
 
         // ======= Lecture du tuple ======= //
-        monUserLu = monServiceUser.read(1L);
-        monServiceUser.print(monUserLu);
+        monUserLu = userDAO.read(1L);
+        monUserLu.print();
 
 
         // ======= Suppression du tuple ======= //
-        monServiceUser.delete(2L);
+        userDAO.delete(2L);
 
         // ======= Lecture du tuple ======= //
-        monUserLu = monServiceUser.read(2L);
-        monServiceUser.print(monUserLu);
+        monUserLu = userDAO.read(2L);
+        monUserLu.print();
+
+
+
+        // ======= Lecture de tous les tuples ======= //
+        List<User> mesUsers = userDAO.readAll();
+        for (User u : mesUsers) {
+            u.print();
+        }
+
+        // ======= Lecture d'un tuple trouvé par email ======= //
+        monUserLu = userDAO.readByEmail("nouvelemail@email.com");
+        monUserLu.print();
+
+
+        // ======= Lecture de tuples trouvés par titre ======= //
+        List<Article> articlesLus = articleDAO.readAllByTitle("1");
+        System.out.println(articlesLus);
+        for (Article a : articlesLus) {
+            a.print();
+        }
+
+        while (true) {
+            int p = 1;
+        }
 
     }
 }
