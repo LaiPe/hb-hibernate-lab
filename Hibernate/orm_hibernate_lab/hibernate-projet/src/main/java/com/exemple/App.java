@@ -15,39 +15,14 @@ public class App {
         System.out.println("==========================================");
         System.out.println("\n");
 
-        // ======= Création des entités ======= //
-        User monUser = new User();
-        monUser.setNom("Léo");
-        monUser.setEmail("leotest@email.com");
 
-        List<Article> mesArticles = new ArrayList<Article>();
-        Article a1 = new Article();
-        a1.setTitle("Article 1");
-        a1.setContent("This is the first article");
-        a1.setAuthor(monUser);
-        Article a2 = new Article();
-        a2.setTitle("Article 2");
-        a2.setContent("This is the second article");
-        a2.setAuthor(monUser);
-
-        mesArticles.add(a1);
-        mesArticles.add(a2);
-        monUser.setArticles(mesArticles);
-
-
-        // ======= Insertion des tuples en BDD ======= //
         UserDAO userDAO = new UserDAO(true);
-        userDAO.create(monUser);
-
         ArticleDAO articleDAO = new ArticleDAO(true);
-        articleDAO.create(a1);
-        articleDAO.create(a2);
 
-
-
+        /*
         // ======= Lecture du tuple ======= //
         User monUserLu = userDAO.read(1L); // lecture de l'id 1 de la table user
-        monUserLu.setArticles(articleDAO.readAllByAuthor(1L));
+        monUserLu.setArticles(articleDAO.readAllBy(1L));
 
         monUserLu.print();
         for (Article a : monUserLu.getArticles()) {
@@ -86,9 +61,17 @@ public class App {
 
 
         // ======= Lecture de tuples trouvés par titre ======= //
-        List<Article> articlesLus = articleDAO.readAllByTitle("1");
+        List<Article> articlesLus = articleDAO.readAllBy("1");
         System.out.println(articlesLus);
         for (Article a : articlesLus) {
+            a.print();
+        }
+        */
+
+        // ======= Lecture de tuples trouvés par auteur et titre ======= //
+        List<Article> autresArticlesLus = articleDAO.readAllBy(1L,"Article",5);
+        System.out.println(autresArticlesLus);
+        for (Article a : autresArticlesLus) {
             a.print();
         }
 

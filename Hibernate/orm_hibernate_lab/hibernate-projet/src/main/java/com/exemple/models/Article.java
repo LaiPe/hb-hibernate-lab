@@ -76,6 +76,11 @@ public class Article extends GenericEntity {
         attributes.put("ID", getId().toString());
         attributes.put("title",getTitle());
         attributes.put("content", getContent());
+        if (author != null) {
+            attributes.put("author_id", getAuthor().getId().toString());
+        } else {
+            attributes.put("author_id", "null");
+        }
         print(attributes);
     }
 

@@ -5,11 +5,11 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
 COPY src ./src
-RUN mvn package -DskipTests
+RUN mvn package -DskipTests -P seeding
 
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-COPY --from=build /app/target/hibernate-projet-1.0-SNAPSHOT.jar app.jar
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
+COPY --from=build /app/target/seeding.jar seeding.jar
+ENTRYPOINT [ "java", "-jar", "seeding.jar"]
 
-#  java -jar app.jar
+#  java -jar seeding.jar

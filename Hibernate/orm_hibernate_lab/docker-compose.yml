@@ -8,13 +8,22 @@ services:
       MYSQL_DATABASE: testdb
       MYSQL_USER: user
       MYSQL_PASSWORD: password
-    # ports:
-    #   - "3306:3306"
+    ports:
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./bootstrap/db-init:/docker-entrypoint-initdb.d
+      - ./bootstrap/ensure-db.sh:/docker-healthcheck.sh
+    healthcheck:
+      test: ["CMD", "bash", "/docker-healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
   
   app:
-    build: ./hibernate-projet
+    build:
+      context: ./hibernate-projet/
+      dockerfile: App.dockerfile
     container_name: app
     depends_on:
       - mysql
@@ -26,7 +35,19 @@ services:
       DB_USER: user
       DB_PASSWORD: password
 
-
+  seeding:
+    build:
+      context: ./hibernate-projet/
+      dockerfile: Seeding.dockerfile
+    container_name: seeding
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: testdb
+      DB_USER: user
+      DB_PASSWORD: password
   
 
 
