@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-@Table(name = "article")
 public class Article extends Publication {
 
     @ManyToOne

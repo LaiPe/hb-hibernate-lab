@@ -1,7 +1,6 @@
 package com.exemple.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
@@ -11,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-@Table(name = "annonce")
 public class Annonce extends Publication {
     @NotNull
     private LocalDate dateExpiration;
