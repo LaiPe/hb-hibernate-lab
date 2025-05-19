@@ -20,11 +20,11 @@ public class User extends GenericEntity{
     private String email;
 
     @OneToMany(targetEntity = Article.class, mappedBy = "author")
-    private List<Article> articles;
+    private List<Publication> publications;
     // 1 utilisateur possède plusieurs articles
 
     public User() {
-        articles = new ArrayList<>();
+        publications = new ArrayList<>();
     }
 
     public User(String nom) {
@@ -45,8 +45,8 @@ public class User extends GenericEntity{
         this.email = email;
     }
 
-    public void setArticles(List<Article> articles) {
-        this.articles = articles;
+    public void setPublications(List<Publication> articles) {
+        this.publications = articles;
     }
 
 
@@ -62,8 +62,8 @@ public class User extends GenericEntity{
         return email;
     }
 
-    public List<Article> getArticles() {
-        return articles;
+    public List<Publication> getPublications() {
+        return publications;
     }
 
 

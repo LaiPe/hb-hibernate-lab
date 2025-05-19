@@ -18,5 +18,6 @@
 
         <mapping class="com.exemple.models.User"/>
         <mapping class="com.exemple.models.Article"/>
+        <mapping class="com.exemple.models.Annonce"/>
     </session-factory>
 </hibernate-configuration>
