@@ -1,6 +1,7 @@
 package com.exemple.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
@@ -10,17 +11,19 @@ import java.time.LocalDate;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "publication")
+@DiscriminatorColumn(name = "type_publication")
 public abstract class Publication extends GenericEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Le titre ne doit pas être nul")
+    @NotBlank
     @Size(max = 200, message = "Le titre ne doit pas dépasser 100 caractères")
     @Column(length = 200, nullable = false)
     private String title;
 
     @NotNull(message = "Le contenu ne doit pas être nul")
+    @Lob
     private String content;
 
     @NotNull(message = "La date de publication ne doit pas être nulle")

@@ -47,9 +47,7 @@ public abstract class GenericDAOImpl<T,ID> implements GenericDAO<T,ID> {
         T entity = null;
 
         try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
             entity = session.get(modelType, id);
-            session.getTransaction().commit();
         } catch (JDBCException | IllegalStateException | RollbackException e) {
             System.err.println("CRUD ERROR : Impossible to READ entity " + modelTypeName + " of id " + id);
         }

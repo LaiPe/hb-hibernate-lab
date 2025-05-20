@@ -1,7 +1,9 @@
 package com.exemple.models;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
@@ -10,11 +12,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
+@DiscriminatorValue("ANNONCE")
 public class Annonce extends Publication {
+
     @NotNull
     private LocalDate dateExpiration;
 
-    @NotNull
+    @NotBlank
     @Email
     private String contactEmail;
 

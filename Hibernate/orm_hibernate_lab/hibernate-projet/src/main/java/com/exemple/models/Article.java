@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
+@DiscriminatorValue("ARTICLE")
 public class Article extends Publication {
 
     @ManyToOne

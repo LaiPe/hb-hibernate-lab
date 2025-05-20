@@ -1,6 +1,9 @@
 package com.exemple;
 
+import com.exemple.dao.PublicationDAO;
+import com.exemple.models.Annonce;
 import com.exemple.models.Article;
+import com.exemple.models.Publication;
 import com.exemple.models.User;
 import com.exemple.dao.ArticleDAO;
 import com.exemple.dao.UserDAO;
@@ -18,6 +21,7 @@ public class App {
 
         UserDAO userDAO = new UserDAO(true);
         ArticleDAO articleDAO = new ArticleDAO(true);
+        PublicationDAO publicationDAO = new PublicationDAO(true);
 
         /*
         // ======= Lecture du tuple ======= //
@@ -68,16 +72,31 @@ public class App {
         }
         */
 
+        /*
         // ======= Lecture de tuples trouvés par auteur et titre ======= //
         List<Article> autresArticlesLus = articleDAO.readAllBy(1L,"Article",5);
         System.out.println(autresArticlesLus);
         for (Article a : autresArticlesLus) {
             a.print();
         }
+        */
+
+        List<Publication> publications = publicationDAO.readAll();
+        System.out.println(publications);
+        for (Publication p : publications) {
+            if (p instanceof Article a) {
+                a.print();
+            }
+            else if (p instanceof Annonce an) {
+                an.print();
+            }
+        }
+
+        Article article = articleDAO.read(3L);
+        article.print();
 
         while (true) {
             int p = 1;
         }
-
     }
 }
