@@ -24,7 +24,7 @@ public abstract class GenericDAOImpl<T,ID> implements GenericDAO<T,ID> {
         this.verbose = verbose;
     }
 
-    public void create(T entity){
+    public T create(T entity){
         System.out.println("==========================================");
         System.out.println("          CRUD operation CREATE");
         System.out.println("==========================================");
@@ -33,10 +33,12 @@ public abstract class GenericDAOImpl<T,ID> implements GenericDAO<T,ID> {
             session.beginTransaction();
             session.persist(entity);
             session.getTransaction().commit();
+            return entity;
         } catch (JDBCException | IllegalStateException | RollbackException e) {
             System.err.println("CRUD ERROR : Impossible to CREATE entity " + modelTypeName);
         }
         System.out.println("\n");
+        return null;
     }
 
     public T read(ID id){

@@ -35,8 +35,12 @@ public class UserRessource {
     }
 
     @POST
-    public void create(User user) {
-        dao.create(user);
+    public UserDTO create(User user) {
+        User daoUser = dao.create(user);
+        UserDTO dto = new UserDTO();
+        dto.setNom(daoUser.getNom());
+        dto.setEmail(daoUser.getEmail());
+        return dto;
     }
 
     @PUT

@@ -37,6 +37,15 @@ services:
     ports:
       - "8080:8080"
 
+  api-consumer:
+    build:
+      context: ./api-consumer/
+      dockerfile: Dockerfile
+    container_name: api-consumer
+    depends_on:
+      - app
+    restart: on-failure
+
   seeding:
     build:
       context: ./hibernate-projet/
