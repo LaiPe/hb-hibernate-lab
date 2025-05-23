@@ -7,12 +7,17 @@ import com.exemple.models.Publication;
 import com.exemple.models.User;
 import com.exemple.dao.ArticleDAO;
 import com.exemple.dao.UserDAO;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.servlet.ServletContainer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         System.out.println("==========================================");
         System.out.println("       Démarrage de l'application");
         System.out.println("==========================================");
@@ -23,80 +28,12 @@ public class App {
         ArticleDAO articleDAO = new ArticleDAO(true);
         PublicationDAO publicationDAO = new PublicationDAO(true);
 
-        /*
-        // ======= Lecture du tuple ======= //
-        User monUserLu = userDAO.read(1L); // lecture de l'id 1 de la table user
-        monUserLu.setArticles(articleDAO.readAllBy(1L));
-
-        monUserLu.print();
-        for (Article a : monUserLu.getArticles()) {
-            a.print();
-        }
-
-
-        // ======= Modification du tuple ======= //
-        monUser.setEmail("nouvelemail@email.com");
-        monUser.setId(1L);
-        userDAO.update(monUser);
-
-        // ======= Lecture du tuple ======= //
-        monUserLu = userDAO.read(1L);
-        monUserLu.print();
-
-
-        // ======= Suppression du tuple ======= //
-        userDAO.delete(2L);
-
-        // ======= Lecture du tuple ======= //
-        monUserLu = userDAO.read(2L);
-        monUserLu.print();
-
-
-
-        // ======= Lecture de tous les tuples ======= //
-        List<User> mesUsers = userDAO.readAll();
-        for (User u : mesUsers) {
-            u.print();
-        }
-
-        // ======= Lecture d'un tuple trouvé par email ======= //
-        monUserLu = userDAO.readByEmail("nouvelemail@email.com");
-        monUserLu.print();
-
-
-        // ======= Lecture de tuples trouvés par titre ======= //
-        List<Article> articlesLus = articleDAO.readAllBy("1");
-        System.out.println(articlesLus);
-        for (Article a : articlesLus) {
-            a.print();
-        }
-        */
-
-        /*
-        // ======= Lecture de tuples trouvés par auteur et titre ======= //
-        List<Article> autresArticlesLus = articleDAO.readAllBy(1L,"Article",5);
-        System.out.println(autresArticlesLus);
-        for (Article a : autresArticlesLus) {
-            a.print();
-        }
-        */
-
-        List<Publication> publications = publicationDAO.readAll();
-        System.out.println(publications);
-        for (Publication p : publications) {
-            if (p instanceof Article a) {
-                a.print();
-            }
-            else if (p instanceof Annonce an) {
-                an.print();
-            }
-        }
-
-        Article article = articleDAO.read(3L);
-        article.print();
-
-        while (true) {
-            int p = 1;
-        }
+        ResourceConfig config = new ApiApplication();
+        ServletHolder servlet = new ServletHolder(new ServletContainer(config));
+        Server server = new Server(8080);
+        ServletContextHandler context = new ServletContextHandler(server, "/");
+        context.addServlet(servlet, "/*");
+        server.start();
+        server.join();
     }
 }
